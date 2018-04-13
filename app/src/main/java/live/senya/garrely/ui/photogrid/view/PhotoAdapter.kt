@@ -30,7 +30,7 @@ class PhotoAdapter(
             setOnClickListener { onPhotoClick(item.id) }
 
             GlideApp.with(this)
-                    .load(item.imageUrl)
+                    .load(item.previewUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView)
         }

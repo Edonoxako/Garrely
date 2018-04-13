@@ -7,8 +7,8 @@ data class Photo(
 
         val id: Long,
 
-        @Json(name = "largeImageURL")
-        val imageUrl: String
+        @Json(name = "webformatURL")
+        val previewUrl: String
 
 ) : DiffCalculable {
 
