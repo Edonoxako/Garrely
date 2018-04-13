@@ -3,10 +3,11 @@ package live.senya.garrely.ui.photogrid.view
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import kotlinx.android.synthetic.main.item_photo.view.*
-import live.senya.garrely.GlideApp
 import live.senya.garrely.R
 import live.senya.garrely.entity.Photo
+import live.senya.garrely.model.system.glide.GlideApp
 import live.senya.garrely.ui.common.adapter.DiffAdapter
 import live.senya.garrely.util.extension.inflate
 
@@ -30,6 +31,7 @@ class PhotoAdapter(
 
             GlideApp.with(this)
                     .load(item.imageUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(imageView)
         }
     }
