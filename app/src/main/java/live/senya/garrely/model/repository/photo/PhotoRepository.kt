@@ -10,8 +10,8 @@ class PhotoRepository @Inject constructor(
         private val photoApi: PixabayApi
 ) {
 
-    fun getPhotos(): Single<List<Photo>> {
-        return photoApi.search(1, true, true)
+    fun getPhotos(page: Int): Single<List<Photo>> {
+        return photoApi.search(page, true, true)
                 .map { it.photos }
                 .subscribeOn(Schedulers.io())
     }

@@ -12,6 +12,7 @@ import live.senya.garrely.di.Scopes
 import live.senya.garrely.entity.Photo
 import live.senya.garrely.ui.common.PaddingItemDecoration
 import live.senya.garrely.ui.photogrid.presenter.PhotoGridPresenter
+import live.senya.garrely.ui.photogrid.view.PaginationScrollListener
 import live.senya.garrely.ui.photogrid.view.PhotoAdapter
 import live.senya.garrely.ui.photogrid.view.PhotoGridView
 import toothpick.Toothpick
@@ -53,8 +54,10 @@ class MainActivity : MvpAppCompatActivity(), PhotoGridView {
     }
 
     private fun initList() = with(recyclerView) {
-        layoutManager = GridLayoutManager(this@MainActivity, gridSpanSize)
+        val gridLayoutManager = GridLayoutManager(this@MainActivity, gridSpanSize)
+        layoutManager = gridLayoutManager
         adapter = photoAdapter
+        addOnScrollListener(PaginationScrollListener(gridLayoutManager, presenter::fetchNextPage))
         setHasFixedSize(true)
         PaddingItemDecoration(
                 resources.getDimensionPixelSize(R.dimen.photo_grid_item_padding),

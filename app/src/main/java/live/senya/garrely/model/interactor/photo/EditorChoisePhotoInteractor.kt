@@ -9,7 +9,7 @@ class EditorChoisePhotoInteractor @Inject constructor(
         private val photoRepository: PhotoRepository
 ) : PhotoInteractor {
 
-    override fun getPhotos(): Single<List<Photo>> {
-        return photoRepository.getPhotos()
+    override fun getPhotos(page: Int): Single<List<Photo>> {
+        return photoRepository.getPhotos(page)
     }
 }

@@ -5,5 +5,5 @@ import live.senya.garrely.entity.Photo
 
 interface PhotoInteractor {
     
-    fun getPhotos(): Single<List<Photo>>
+    fun getPhotos(page: Int): Single<List<Photo>>
 }
