@@ -1,6 +1,6 @@
 package live.senya.garrely
 
-import android.app.Application
+import android.support.multidex.MultiDexApplication
 import com.facebook.stetho.Stetho
 import live.senya.garrely.di.Scopes
 import live.senya.garrely.di.module.AppModule
@@ -12,7 +12,7 @@ import toothpick.configuration.Configuration
 import toothpick.registries.FactoryRegistryLocator
 import toothpick.registries.MemberInjectorRegistryLocator
 
-class App : Application() {
+class App : MultiDexApplication() {
 
     override fun onCreate() {
         super.onCreate()
