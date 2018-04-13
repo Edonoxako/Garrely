@@ -3,8 +3,8 @@ package live.senya.garrely.ui.photogrid.view
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.item_photo.view.*
+import live.senya.garrely.GlideApp
 import live.senya.garrely.R
 import live.senya.garrely.entity.Photo
 import live.senya.garrely.ui.common.adapter.DiffAdapter
@@ -28,7 +28,7 @@ class PhotoAdapter(
         fun bind(item: Photo) = with(itemView) {
             setOnClickListener { onPhotoClick(item.id) }
 
-            Glide.with(this)
+            GlideApp.with(this)
                     .load(item.imageUrl)
                     .into(imageView)
         }

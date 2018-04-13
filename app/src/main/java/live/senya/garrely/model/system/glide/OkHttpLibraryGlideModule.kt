@@ -1,4 +1,4 @@
-package live.senya.garrely
+package live.senya.garrely.model.system.glide
 
 import android.content.Context
 
