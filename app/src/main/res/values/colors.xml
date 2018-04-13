@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorGrey">#757575</color>
+    <color name="color1">#212121</color>
+    <color name="color2">#000000</color>
+    <color name="color3">#FFFFFF</color>
+    <color name="color4">#303030</color>
 </resources>
