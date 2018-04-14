@@ -4,6 +4,7 @@ import android.support.multidex.MultiDexApplication
 import com.facebook.stetho.Stetho
 import live.senya.garrely.di.Scopes
 import live.senya.garrely.di.module.AppModule
+import live.senya.garrely.di.module.DbModule
 import live.senya.garrely.di.module.InteractorModule
 import live.senya.garrely.di.module.NetworkModule
 import timber.log.Timber
@@ -50,7 +51,8 @@ class App : MultiDexApplication() {
                 .installModules(
                         AppModule(this),
                         InteractorModule(),
-                        NetworkModule()
+                        NetworkModule(),
+                        DbModule()
                 )
     }
 }

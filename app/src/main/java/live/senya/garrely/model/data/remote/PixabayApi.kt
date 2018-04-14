@@ -1,7 +1,7 @@
 package live.senya.garrely.model.data.remote
 
 import io.reactivex.Single
-import live.senya.garrely.entity.ApiResponse
+import live.senya.garrely.entity.remote.ApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

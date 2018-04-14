@@ -1,6 +1,7 @@
-package live.senya.garrely.entity
+package live.senya.garrely.entity.remote
 
 import com.squareup.moshi.Json
+import live.senya.garrely.entity.Photo
 
 data class ApiResponse(
 

@@ -23,5 +23,4 @@ class NetworkModule : Module() {
                 .toProvider(PhotoApiProvider::class.java)
                 .singletonInScope()
     }
-    
 }
