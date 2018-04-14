@@ -30,7 +30,6 @@ class PhotoGridPresenter @Inject constructor(
                 .doOnSuccess { cache.addAll(it) }
                 .doFinally { isLoading = false }
                 .map { cache }
-                .retry()
                 .subscribe(viewState::showPhotos, Timber::e)
                 .store()
     }
