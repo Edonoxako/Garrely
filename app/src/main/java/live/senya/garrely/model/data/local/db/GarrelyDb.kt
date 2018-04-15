@@ -3,25 +3,25 @@ package live.senya.garrely.model.data.local.db
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import live.senya.garrely.entity.Photo
-import live.senya.garrely.entity.local.QueryToPhoto
-import live.senya.garrely.entity.local.SearchQuery
+import live.senya.garrely.entity.local.db.Page
+import live.senya.garrely.entity.local.db.PageToPhoto
+import live.senya.garrely.model.data.local.db.dao.PageDao
+import live.senya.garrely.model.data.local.db.dao.PageToPhotoDao
 import live.senya.garrely.model.data.local.db.dao.PhotoDao
-import live.senya.garrely.model.data.local.db.dao.QueryToPhotoDao
-import live.senya.garrely.model.data.local.db.dao.SearchQueryDao
 
 @Database(
         entities = [
             Photo::class,
-            SearchQuery::class,
-            QueryToPhoto::class
+            Page::class,
+            PageToPhoto::class
         ],
         version = GarrelyDb.DB_VERSION
 )
 abstract class GarrelyDb : RoomDatabase() {
     
     abstract fun photoDao(): PhotoDao
-    abstract fun searchQueryDao(): SearchQueryDao
-    abstract fun queryToPhotoDao(): QueryToPhotoDao
+    abstract fun pageDao(): PageDao
+    abstract fun pageToPhotoDao(): PageToPhotoDao
 
     fun executeInTransaction(func: GarrelyDb.() -> Unit) = runInTransaction { func.invoke(this) }
     

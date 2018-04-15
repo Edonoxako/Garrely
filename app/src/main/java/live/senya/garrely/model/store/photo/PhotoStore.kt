@@ -1,6 +1,12 @@
 package live.senya.garrely.model.store.photo
 
-import live.senya.garrely.entity.local.QueryWithPhoto
+import io.reactivex.Completable
+import io.reactivex.Maybe
+import io.reactivex.Single
+import live.senya.garrely.entity.Photo
+import live.senya.garrely.entity.local.PhotoPage
+import live.senya.garrely.entity.local.db.Page
+import live.senya.garrely.entity.local.db.PageToPhoto
 import live.senya.garrely.model.data.local.db.GarrelyDb
 import javax.inject.Inject
 
@@ -8,14 +14,22 @@ class PhotoStore @Inject constructor(
         private val db: GarrelyDb
 ) {
 
-    // wip
-    fun save(queryWithPhoto: QueryWithPhoto) {
-//        val querysToPhoto = QueryToPhoto()
-        
+    fun save(photoPage: PhotoPage): Completable = Completable.fromCallable {
         db.executeInTransaction {
-            searchQueryDao().insert(queryWithPhoto.queries)
-            photoDao().insert(queryWithPhoto.photos)
-            
+            val pageId = pageDao().insert(photoPage.page)
+            val photoIds = photoDao().insert(photoPage.photos)
+
+            val pagesToPhotos = photoIds.map { PageToPhoto(pageId, it) }
+
+            pageToPhotoDao().insert(pagesToPhotos)
         }
+    }
+
+    fun getPage(searchQuery: String, pageNumber: Int): Maybe<Page> {
+        return db.pageDao().get(searchQuery, pageNumber)
+    }
+
+    fun getPhotos(page: Page): Single<List<Photo>> {
+        return db.photoDao().getByPageId(page.id)
     }
 }
