@@ -6,7 +6,6 @@ import android.net.ConnectivityManager
 import android.net.NetworkInfo
 import com.github.karczews.rxbroadcastreceiver.RxBroadcastReceivers
 import io.reactivex.Observable
-import io.reactivex.Single
 import live.senya.garrely.entity.NetworkState
 import javax.inject.Inject
 
@@ -38,6 +37,5 @@ class NetworkStateStore @Inject constructor(
                 .startWith(currentNetworkState)
                 .distinctUntilChanged()
     }
-
-    fun currentNetworkState(): Single<NetworkState> = Single.just(currentNetworkState)
+    
 }

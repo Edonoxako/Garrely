@@ -2,7 +2,7 @@ package live.senya.garrely.ui.photogrid.presenter
 
 import com.arellomobile.mvp.InjectViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
-import live.senya.garrely.entity.Photo
+import live.senya.garrely.entity.State
 import live.senya.garrely.model.interactor.photo.PhotoInteractor
 import live.senya.garrely.ui.base.RxPresenter
 import live.senya.garrely.ui.photogrid.view.PhotoGridView
@@ -14,33 +14,30 @@ class PhotoGridPresenter @Inject constructor(
         private val interactor: PhotoInteractor
 ) : RxPresenter<PhotoGridView>() {
 
-    private val cache: MutableList<Photo> = ArrayList()
-
-    private var currentPage = 1
+    private var currentPage = 0
     private var isLoading = false
 
     override fun onFirstViewAttach() {
-        fetchPage(1)
-    }
-
-    private fun fetchPage(page: Int) {
-        interactor.getPhotos(page)
+        interactor.observeState()
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { isLoading = true }
-                .doOnSuccess { cache.addAll(it) }
-                .doFinally { isLoading = false }
-                .map { cache }
-                .subscribe(viewState::showPhotos, Timber::e)
+                .subscribe(::applyState, Timber::e)
                 .store()
+
+        requestNextPage()
     }
 
-    fun fetchNextPage() {
+    fun requestNextPage() {
         if (isLoading) return
-        fetchPage(++currentPage)
+        interactor.requestPage("", ++currentPage)
     }
 
     fun openPhotoPager(photoId: Long) {
 
+    }
+
+    private fun applyState(state: State) {
+        viewState.showPhotos(state.data.flatMap { it.value })
+        isLoading = state.isLoading
     }
 
 }

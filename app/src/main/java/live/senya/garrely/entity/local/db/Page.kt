@@ -3,6 +3,7 @@ package live.senya.garrely.entity.local.db
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
+import live.senya.garrely.entity.Constants
 
 @Entity(tableName = Page.TABLE_NAME)
 data class Page(
@@ -14,11 +15,22 @@ data class Page(
         var number: Int,
 
         var date: Long = System.currentTimeMillis()
-) {
+
+) : Comparable<Page> {
+
+    override fun compareTo(other: Page): Int {
+        return number.compareTo(other.number)
+    }
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = COLUMN_NAME_ID)
     var id: Long = 0L
+
+    val isFresh: Boolean
+        get() {
+            val timePassed = System.currentTimeMillis() - date
+            return timePassed < Constants.CACHE_FADE_TIME
+        }
 
     companion object {
         const val TABLE_NAME = "pages"

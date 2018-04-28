@@ -1,7 +1,7 @@
 package live.senya.garrely.model.store.photo
 
 import io.reactivex.Completable
-import io.reactivex.Maybe
+import io.reactivex.Flowable
 import io.reactivex.Single
 import live.senya.garrely.entity.Photo
 import live.senya.garrely.entity.local.PhotoPage
@@ -25,11 +25,11 @@ class PhotoStore @Inject constructor(
         }
     }
 
-    fun getPage(searchQuery: String, pageNumber: Int): Maybe<Page> {
-        return db.pageDao().get(searchQuery, pageNumber)
-    }
-
     fun getPhotos(page: Page): Single<List<Photo>> {
         return db.photoDao().getByPageId(page.id)
+    }
+
+    fun observePage(searchQuery: String, pageNumber: Int): Flowable<List<Page>> {
+        return db.pageDao().observe(searchQuery, pageNumber)
     }
 }

@@ -57,7 +57,7 @@ class MainActivity : MvpAppCompatActivity(), PhotoGridView {
         val gridLayoutManager = GridLayoutManager(this@MainActivity, gridSpanSize)
         layoutManager = gridLayoutManager
         adapter = photoAdapter
-        addOnScrollListener(PaginationScrollListener(gridLayoutManager, presenter::fetchNextPage))
+        addOnScrollListener(PaginationScrollListener(gridLayoutManager, presenter::requestNextPage))
         setHasFixedSize(true)
         PaddingItemDecoration(
                 resources.getDimensionPixelSize(R.dimen.photo_grid_item_padding),
