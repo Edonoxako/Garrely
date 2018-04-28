@@ -22,7 +22,7 @@ class PhotoInteractor @Inject constructor(
 
             // todo clean up on terminate
     fun observeState(): Observable<State> {
-        return relay.scan { item: State, accumulated: State ->
+        return relay.scan { accumulated: State, item: State ->
             item.apply { data.putAll(accumulated.data) }
         }
     }
