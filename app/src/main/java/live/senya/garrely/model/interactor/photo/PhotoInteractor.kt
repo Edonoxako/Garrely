@@ -19,6 +19,7 @@ class PhotoInteractor @Inject constructor(
 
     private val relay = BehaviorSubject.create<State>()
     private val subscriptions = CompositeDisposable()
+    private val requestedPages = mutableSetOf<Pair<String, Number>>()
 
             // todo clean up on terminate
     fun observeState(): Observable<State> {
@@ -28,6 +29,9 @@ class PhotoInteractor @Inject constructor(
     }
 
     fun requestPage(query: String, number: Int) {
+        if (pageIsAlreadyRequested(query, number)) return
+        requestedPages.add(query to number)
+        
         photoRepository.observePage(query, number)
                 .switchMap {
                     when {
@@ -38,6 +42,10 @@ class PhotoInteractor @Inject constructor(
                 }
                 .subscribe(relay::onNext)
                 .addTo(subscriptions)
+    }
+
+    private fun pageIsAlreadyRequested(query: String, number: Int): Boolean {
+        return requestedPages.contains(query to number)
     }
 
     private fun refreshPage(page: Page): Observable<State> {

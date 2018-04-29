@@ -14,8 +14,7 @@ class PhotoGridPresenter @Inject constructor(
         private val interactor: PhotoInteractor
 ) : RxPresenter<PhotoGridView>() {
 
-    private var currentPage = 0
-    private var isLoading = false
+    private var lastPageNumber = 0
 
     override fun onFirstViewAttach() {
         interactor.observeState()
@@ -26,18 +25,19 @@ class PhotoGridPresenter @Inject constructor(
         requestNextPage()
     }
 
-    fun requestNextPage() {
-        if (isLoading) return
-        interactor.requestPage("", ++currentPage)
-    }
+    fun requestNextPage() = interactor.requestPage("", lastPageNumber.inc())
 
     fun openPhotoPager(photoId: Long) {
 
     }
 
     private fun applyState(state: State) {
+        state.data.takeIf { it.isNotEmpty() }
+                ?.lastKey()
+                ?.number
+                ?.let { lastPageNumber = it }
+        
         viewState.showPhotos(state.data.flatMap { it.value })
-        isLoading = state.isLoading
     }
 
 }
