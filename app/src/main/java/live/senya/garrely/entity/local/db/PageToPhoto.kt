@@ -1,6 +1,10 @@
 package live.senya.garrely.entity.local.db
 
-import android.arch.persistence.room.*
+import android.arch.persistence.room.ColumnInfo
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.Index
+import android.arch.persistence.room.PrimaryKey
 import live.senya.garrely.entity.Photo
 
 @Entity(
@@ -8,13 +12,13 @@ import live.senya.garrely.entity.Photo
         foreignKeys = [
             ForeignKey(
                     entity = Page::class,
-                    childColumns = [(PageToPhoto.COLUMN_NAME_PAGE_ID)],
-                    parentColumns = [(Page.COLUMN_NAME_ID)],
+                    childColumns = [PageToPhoto.COLUMN_NAME_PAGE_ID],
+                    parentColumns = [Page.COLUMN_NAME_ID],
                     onDelete = ForeignKey.CASCADE
             ),
             ForeignKey(
                     entity = Photo::class,
-                    childColumns = [(PageToPhoto.COLUMN_NAME_PHOTO_ID)],
+                    childColumns = [PageToPhoto.COLUMN_NAME_PHOTO_ID],
                     parentColumns = [Photo.COLUMN_NAME_ID],
                     onDelete = ForeignKey.CASCADE
             )
