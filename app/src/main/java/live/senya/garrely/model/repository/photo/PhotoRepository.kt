@@ -4,6 +4,7 @@ import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import live.senya.garrely.entity.Constants.USE_SAFE_SEARCH
 import live.senya.garrely.entity.Photo
 import live.senya.garrely.entity.local.db.Page
 import live.senya.garrely.entity.mapper.PhotoPageMapper
@@ -43,8 +44,4 @@ class PhotoRepository @Inject constructor(
                 .subscribeOn(Schedulers.io())
     }
     
-    companion object {
-        private const val USE_SAFE_SEARCH = true
-    }
-
 }
