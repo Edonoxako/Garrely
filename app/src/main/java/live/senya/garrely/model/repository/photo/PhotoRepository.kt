@@ -5,24 +5,28 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import live.senya.garrely.entity.Photo
-import live.senya.garrely.entity.local.PhotoPage
 import live.senya.garrely.entity.local.db.Page
+import live.senya.garrely.entity.mapper.PhotoPageMapper
 import live.senya.garrely.model.data.remote.PixabayApi
 import live.senya.garrely.model.store.photo.PhotoStore
 import javax.inject.Inject
 
 class PhotoRepository @Inject constructor(
         private val photoApi: PixabayApi,
-        private val photoStore: PhotoStore
+        private val photoStore: PhotoStore,
+        private val mapper: PhotoPageMapper
 ) {
 
     fun fetchPage(query: String, number: Int): Completable {
-        return photoApi.search(number, true, true)
-                .map {
-                    PhotoPage(
-                            Page(query, number, System.currentTimeMillis()),
-                            it.photos
-                    )
+        return photoApi.search(
+                page = number, 
+                editorsChoice = true, 
+                safeSearch = USE_SAFE_SEARCH
+        )
+                .map { response ->
+                    val page = Page(query, number, System.currentTimeMillis())
+                    
+                    mapper.map(page, response)
                 }
                 .flatMapCompletable(photoStore::save)
                 .subscribeOn(Schedulers.io())
@@ -37,6 +41,10 @@ class PhotoRepository @Inject constructor(
     fun getPhotos(page: Page): Single<List<Photo>> {
         return photoStore.getPhotos(page)
                 .subscribeOn(Schedulers.io())
+    }
+    
+    companion object {
+        private const val USE_SAFE_SEARCH = true
     }
 
 }
